@@ -25,10 +25,10 @@ void init_chunk(chunk_t* chunk) {
                     float voxel_id = x + CHUNK_SIZE * z + (CHUNK_SIZE * CHUNK_SIZE) * y;
 
                     GLfloat vertices[VERTEX_SIZE * 4] = {
-                        x, y + BLOCK_SIZE, z,                   voxel_id, 0,
-                        x + BLOCK_SIZE, y + BLOCK_SIZE, z,              voxel_id, 0,
-                        x + BLOCK_SIZE, y + BLOCK_SIZE, z + BLOCK_SIZE,         voxel_id, 0,
-                        x, y + BLOCK_SIZE, z + BLOCK_SIZE,              voxel_id, 0,
+                        x * BLOCK_SIZE,         (y + 1) * BLOCK_SIZE,       z * BLOCK_SIZE,               voxel_id,     0,
+                        (x + 1) * BLOCK_SIZE,   (y + 1) * BLOCK_SIZE,       z * BLOCK_SIZE,               voxel_id,     0,
+                        (x + 1) * BLOCK_SIZE,   (y + 1) * BLOCK_SIZE,       (z + 1) * BLOCK_SIZE,         voxel_id,     0,
+                        x * BLOCK_SIZE,         (y + 1) * BLOCK_SIZE,       (z + 1) * BLOCK_SIZE,         voxel_id,     0,
                     };
 
                     GLuint indices[] = {

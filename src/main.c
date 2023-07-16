@@ -40,7 +40,6 @@ void screen_render(GLFWwindow* window) {
     glDrawElements(GL_TRIANGLES, test_chunk1.mesh.current_index * 6, GL_UNSIGNED_INT, 0);
 
     glfwSwapBuffers(window);
-    glfwSwapInterval(0);
 }
 
 int main() {
@@ -72,6 +71,12 @@ int main() {
     // uploads the projection to the shader
     glUniformMatrix4fv(glGetUniformLocation(test_chunk1.mesh.shader.program_id, "uProjection"), 1, GL_FALSE,(const GLfloat*) player->camera->projection);
 
+    for (int x = 0;x < 20; x++) {
+        for (int y = 0; y < VERTEX_SIZE; y++) {
+            printf("%f, ", test_chunk1.mesh.vertices[(x * VERTEX_SIZE) + y]);
+        }
+        printf("\n");
+    }
 
     // runs the game loop
     //  timer variables

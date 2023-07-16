@@ -18,5 +18,5 @@ vec4 hash_color(float p) {
 void main() {
     voxel_color = hash_color(aVoxelId);
     mat4 model = mat4(1.0); // Identity matrix (no transformations applied)
-    gl_Position = uProjection * uView * model * vec4(aPos, 1.0);
+    gl_Position = uProjection * uView * model * vec4(aPos.xyz, 1.0);
 }
