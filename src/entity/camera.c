@@ -6,10 +6,9 @@
 #include "camera.h"
 
 void set_up_projection(camera_t* camera, int width, int height) {
-    float fov = 70.0f; // Field of view in degrees
     float aspect_ratio = (float) (width / height) ; // Adjust this based on your screen size
 
-    glm_perspective(glm_rad(fov), aspect_ratio, NEAR, FAR, camera->projection);
+    glm_perspective(glm_rad(FOV), aspect_ratio, NEAR, FAR, camera->projection);
 }
 
 void camera_init(camera_t* camera, float yaw, float pitch, int width, int height) {
@@ -51,12 +50,13 @@ void update_vectors(camera_t* camera) {
 }
 
 void rotate_pitch(camera_t* camera, float delta_y) {
-    camera->pitch -= delta_y;
+    camera->pitch += delta_y;
     glm_clamp(camera->pitch, -PITCH_MAX, PITCH_MAX);
 }
 
 void rotate_yaw(camera_t* camera, float delta_x) {
     camera->yaw += delta_x;
+    glm_clamp(camera->yaw, -PITCH_MAX, PITCH_MAX);
 }
 
 void move_left(camera_t* camera, float velocity) {

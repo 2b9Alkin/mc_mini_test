@@ -5,10 +5,12 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <memory.h>
 #include "../glew/include/GL/glew.h"
 #include "../glfw/include/glfw3.h"
 #include "entity/player/player.h"
 #include "renderer/chunk.h"
+#include "entity/player/voxel_handler.h"
 
 // goal -- create a minecraft clone within 48h and less than 10kb of space (keep it simple)
 // started this jul 16 1am
@@ -33,7 +35,7 @@ uint_fast64_t get_current_time_nano_seconds() {
 
 void screen_render(GLFWwindow* window) {
     glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(test_chunk1.mesh.shader.program_id);
 
@@ -53,30 +55,25 @@ int main() {
 
     // create context
     glfwMakeContextCurrent(window);
-    glewExperimental = true;
     glewInit();
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glEnable(GL_DEPTH_TEST);
+
+    glfwSetWindowPos(window, 0, 0);
 
     // DEBUG (TEST):
-    init_chunk(&test_chunk1);
+    chunk_init(&test_chunk1);
 
     // player config
     player_t* player = malloc(sizeof(player_t));
     player->camera = malloc(sizeof(camera_t));
-    player->player_speed = 2.1f;
-    camera_init(player->camera, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    player->player_speed = 1.916f;
+    camera_init(player->camera, 0, 1.5f, WINDOW_WIDTH, WINDOW_HEIGHT);
     set_up_projection(player->camera, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // uploads the projection to the shader
     glUniformMatrix4fv(glGetUniformLocation(test_chunk1.mesh.shader.program_id, "uProjection"), 1, GL_FALSE,(const GLfloat*) player->camera->projection);
-
-    for (int x = 0;x < 20; x++) {
-        for (int y = 0; y < VERTEX_SIZE; y++) {
-            printf("%f, ", test_chunk1.mesh.vertices[(x * VERTEX_SIZE) + y]);
-        }
-        printf("\n");
-    }
 
     // runs the game loop
     //  timer variables
@@ -97,6 +94,33 @@ int main() {
 
         if (delta >= 1) {
             glfwPollEvents();
+
+            if (glfwGetMouseButton(window, 0) == GLFW_PRESS) {
+                double mx, my;
+                glfwGetCursorPos(window, &mx, &my);
+
+                ray_cast(*player->camera, &test_chunk1, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+//                if (xyz[0] < 0) {
+//                    xyz[0] = 0;
+//                } else if (xyz[0] >= CHUNK_SIZE) {
+//                    xyz[0] = CHUNK_SIZE - 1;
+//                }
+//
+//                if (xyz[1] < 0) {
+//                    xyz[1] = 0;
+//                } else if (xyz[1] >= CHUNK_SIZE) {
+//                    xyz[1] = CHUNK_SIZE - 1;
+//                }
+//
+//                if (xyz[2] < 0) {
+//                    xyz[2] = 0;
+//                } else if (xyz[2] >= CHUNK_SIZE) {
+//                    xyz[2] = CHUNK_SIZE - 1;
+//                }
+//
+//                test_chunk1.map_data[xyz[0]][xyz[1]][xyz[2]] = EMPTY_BLOCK;
+            }
 
             // update player
             keyboard_control(player, delta, window);

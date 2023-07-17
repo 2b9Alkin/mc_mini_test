@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "buffers.h"
+#include "chunk.h"
 
 void create_vao(GLuint* vao) {
     glGenVertexArrays(1, vao);
@@ -52,11 +53,11 @@ void create_buffers(const GLfloat *vertices, const GLuint *indices, buffers_t *b
 
     create_vbo(&buffer->vbo);
     bind_vbo(buffer->vbo);
-    send_data_vbo(vertices, sizeof(float) * VERTEX_SIZE);
+    send_data_vbo(vertices, sizeof(float) * VERTEX_SIZE * 4 * CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 4);
 
     create_ebo(&buffer->ebo);
     bind_ebo(buffer->ebo);
-    send_data_ebo(indices, sizeof(uint32_t) * (sizeof indices  * sizeof(GLuint)));
+    send_data_ebo(indices, 6 * (sizeof indices  * sizeof(GLuint)) * 1036);
 
     bind_vbo(buffer->vbo);
     bind_ebo(buffer->ebo);

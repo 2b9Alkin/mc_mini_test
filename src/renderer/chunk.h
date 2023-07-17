@@ -8,7 +8,7 @@
 #include "shader.h"
 #include "buffers.h"
 
-#define CHUNK_SIZE 14
+#define CHUNK_SIZE 32
 #define BLOCK_SIZE 32
 
 enum tiles {
@@ -22,15 +22,16 @@ typedef struct {
     shader_t shader;
     buffers_t buffers;
     int current_index;
-    GLfloat vertices[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * VERTEX_SIZE * 8];
-    GLuint indices[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 6 * 6];
+    GLfloat vertices[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * VERTEX_SIZE * 12];
+    GLuint indices[CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 6 * 12];
 } chunk_mesh_t;
 
 typedef struct {
-   uint8_t map_data[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
+    uint8_t map_data[CHUNK_SIZE][CHUNK_SIZE][CHUNK_SIZE];
     chunk_mesh_t mesh;
 } chunk_t;
 
-void init_chunk(chunk_t* chunk);
+void chunk_init(chunk_t* chunk);
+void chunk_rebuild(chunk_t* chunk, int offset);
 
 #endif //MINI_CRAFT_CHUNK_H

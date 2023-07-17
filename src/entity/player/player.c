@@ -59,5 +59,4 @@ void keyboard_control(player_t* player, double delta_time, GLFWwindow* window) {
         move_down(player->camera, velocity);
     }
 
-
 }

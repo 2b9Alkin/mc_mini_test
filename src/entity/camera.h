@@ -8,8 +8,9 @@
 #include "cglm/cglm/include/cglm/cglm.h"
 #include "../renderer/shader.h"
 
+#define FOV 70.0f
 #define NEAR 0.1f
-#define FAR 2024.0f
+#define FAR 4096.0f
 #define PITCH_MAX glm_rad(89)
 #define MOUSE_SENSITIVITY 0.0185f
 

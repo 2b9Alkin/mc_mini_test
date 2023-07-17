@@ -7,12 +7,12 @@ layout (location = 2) in float aFaceId;
 uniform mat4 uProjection;
 uniform mat4 uView;
 
-out vec4 voxel_color;
+out vec3 voxel_color;
 
-vec4 hash_color(float p) {
-    vec4 p3 = fract(vec4(p * 21.2) * vec4(0.205f, 0.1201f, 0.0896f, 1.0f));
+vec3 hash_color(float p) {
+    vec3 p3 = fract(vec3(p * 21.2) * vec3(0.205f, 0.1201f, 0.0896f));
     p3 += dot(p3, p3 + 33.33f);
-    return fract((p3.xxyw + p3.yzzw) * p3.xyzw) + 0.05f;
+    return fract((p3.xxy + p3.yzz) * p3.xyz) + 0.05f;
 }
 
 void main() {
