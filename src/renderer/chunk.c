@@ -37,7 +37,7 @@ void chunk_init(chunk_t* chunk) {
         for (int y = 0; y < CHUNK_SIZE; y++) {
             for (int z = 0; z < CHUNK_SIZE; z++) {
                 int current_face = 0;
-                chunk->map_data[x][y][z] = rand() % 2;
+                chunk->map_data[x][y][z] = STONE_BLOCK;
 
                 // LEFT face
                 if (y + 1 == CHUNK_SIZE || chunk->map_data[x][y + 1][z] == STONE_BLOCK) {

@@ -7,37 +7,13 @@
 
 // Function to find the nearest block to the player.
 void ray_cast(camera_t camera, chunk_t* chunk) {
-    ivec3 player_direction = {(int)roundf(camera.direction[0]),
-                              (int)roundf(camera.direction[1]),
-                              (int)roundf(camera.direction[2])};
+    vec3 check_position;
+    glm_vec3_copy(camera.positions, check_position); //start at cam pos
+    printf("Camera position: (%f, %f, %f)\n", check_position[0], check_position[1], check_position[2]);
 
-    vec3 temp_point_loc = {camera.positions[0], camera.positions[1], camera.positions[2]};
-    vec3 range = {player_direction[0] * MAX_RAY_DIST, player_direction[1] * MAX_RAY_DIST, player_direction[2] * MAX_RAY_DIST};
-
-    while (temp_point_loc[0] <= temp_point_loc[0] + range[0] &&
-            temp_point_loc[1] <= temp_point_loc[1] + range[1]) {
-        int voxel_x = (int)temp_point_loc[0];
-        int voxel_y = (int)temp_point_loc[1];
-        int voxel_z = (int)temp_point_loc[2];
-
-
-        int nearest_x = (int)(voxel_x / BLOCK_SIZE);
-        int nearest_y = (int)(voxel_y / BLOCK_SIZE);
-        int nearest_z = (int)(voxel_z / BLOCK_SIZE);
-
-        printf("%d, %d, %d\n", nearest_x, nearest_y, nearest_z);
-
-        if (chunk->map_data[voxel_x][voxel_y][voxel_z]) {
-
-            chunk_rebuild(chunk, nearest_x, nearest_y, nearest_z);
-
-            break;
-        }
-
-        temp_point_loc[0] += STEP_SIZE_RAY_CAST;
-        temp_point_loc[1] += STEP_SIZE_RAY_CAST;
-        temp_point_loc[2] += STEP_SIZE_RAY_CAST;
-    }
-
-
+    int cam_x = (int)(check_position[0] / BLOCK_SIZE);
+    int cam_y = (int)(check_position[1] / BLOCK_SIZE);
+    int cam_z = (int)(check_position[2] / BLOCK_SIZE);
+    printf("Camera block: (%d, %d, %d)\n", cam_x, cam_y, cam_z);
+    printf("voxel at camera position is: %d\n", chunk->map_data[cam_x][cam_y][cam_z]);
 }
