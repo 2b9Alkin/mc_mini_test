@@ -5,38 +5,39 @@
 #include <memory.h>
 #include "voxel_handler.h"
 
-void ray_cast(camera_t camera, chunk_t* chunk, double mouse_x, double mouse_y, int screen_width, int screen_height) {
+// Function to find the nearest block to the player.
+void ray_cast(camera_t camera, chunk_t* chunk) {
+    ivec3 player_direction = {(int)roundf(camera.direction[0]),
+                              (int)roundf(camera.direction[1]),
+                              (int)roundf(camera.direction[2])};
 
-    vec3 temp_point;
+    vec3 temp_point_loc = {camera.positions[0], camera.positions[1], camera.positions[2]};
+    vec3 range = {player_direction[0] * MAX_RAY_DIST, player_direction[1] * MAX_RAY_DIST, player_direction[2] * MAX_RAY_DIST};
 
-    glm_vec3_copy(camera.positions, temp_point);
+    while (temp_point_loc[0] <= temp_point_loc[0] + range[0] &&
+            temp_point_loc[1] <= temp_point_loc[1] + range[1]) {
+        int voxel_x = (int)temp_point_loc[0];
+        int voxel_y = (int)temp_point_loc[1];
+        int voxel_z = (int)temp_point_loc[2];
 
-    ivec3 direction = {(int)(((camera.forward[0] * 360) + (MAX_RAY_DIST * BLOCK_SIZE)) / BLOCK_SIZE),
-                       (int)(((camera.forward[1] * 360) + (MAX_RAY_DIST * BLOCK_SIZE)) / BLOCK_SIZE),
-                       (int)(((camera.forward[2] * 360) + (MAX_RAY_DIST * BLOCK_SIZE)) / BLOCK_SIZE)};
-    while (temp_point[0] != direction[0] &&
-            temp_point[1] != direction[1] &&
-            temp_point[2] != direction[2]) {
 
-        if (temp_point[0] >= direction[0] &&
-            temp_point[1] >= direction[1] &&
-            temp_point[2] >= direction[2]) {
-            printf("%d, %d, %d\n", (int)(temp_point[0] / 32) + direction[0] - 17, (
-                    int)(temp_point[1] / 32) + direction[1] - 6, (int)(temp_point[2] / 32) + direction[2] - 6);
+        int nearest_x = (int)(voxel_x / BLOCK_SIZE);
+        int nearest_y = (int)(voxel_y / BLOCK_SIZE);
+        int nearest_z = (int)(voxel_z / BLOCK_SIZE);
 
-            int x = (int)(temp_point[0] / 32) + direction[0] - 17;
-            int y = (int)(temp_point[1] / 32) + direction[1] - 6;
-            int z = (int)(temp_point[2] / 32) + direction[2] - 6;
+        printf("%d, %d, %d\n", nearest_x, nearest_y, nearest_z);
 
-            int area = CHUNK_SIZE * CHUNK_SIZE;
-            int offset = x + CHUNK_SIZE * z + area * y;
-            chunk_rebuild(chunk, offset);
+        if (chunk->map_data[voxel_x][voxel_y][voxel_z]) {
+
+            chunk_rebuild(chunk, nearest_x, nearest_y, nearest_z);
+
             break;
         }
 
-        temp_point[0]++;
-        temp_point[1]++;
-        temp_point[2]++;
+        temp_point_loc[0] += STEP_SIZE_RAY_CAST;
+        temp_point_loc[1] += STEP_SIZE_RAY_CAST;
+        temp_point_loc[2] += STEP_SIZE_RAY_CAST;
     }
-}
 
+
+}

@@ -37,9 +37,7 @@ void screen_render(GLFWwindow* window) {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(test_chunk1.mesh.shader.program_id);
-
-    glDrawElements(GL_TRIANGLES, test_chunk1.mesh.current_index * 6, GL_UNSIGNED_INT, 0);
+    chunk_render(test_chunk1);
 
     glfwSwapBuffers(window);
 }
@@ -95,12 +93,16 @@ int main() {
         if (delta >= 1) {
             glfwPollEvents();
 
+            update_camera_direction(player->camera);
             if (glfwGetMouseButton(window, 0) == GLFW_PRESS) {
                 double mx, my;
                 glfwGetCursorPos(window, &mx, &my);
 
-                ray_cast(*player->camera, &test_chunk1, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
+                ray_cast(*player->camera, &test_chunk1);
+//                ray_cast(*player->camera, &test_chunk1, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+//                test_chunk1.map_data[0][0][3] = EMPTY_BLOCK;
+//                chunk_rebuild(&test_chunk1, 0, 0, 3);
 //                if (xyz[0] < 0) {
 //                    xyz[0] = 0;
 //                } else if (xyz[0] >= CHUNK_SIZE) {

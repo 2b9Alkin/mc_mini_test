@@ -10,7 +10,7 @@
 #define POS_SIZE 3
 #define VOXEL_ID_SIZE 1
 #define FACE_ID_SIZE 1
-#define VERTEX_SIZE (POS_SIZE + VOXEL_ID_SIZE + FACE_ID_SIZE)
+#define VERTEX_SIZE_VALUES (POS_SIZE )
 
 typedef struct {
     GLuint vbo;

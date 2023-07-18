@@ -18,14 +18,16 @@ typedef struct {
     mat4 projection;
     mat4 rotation;
     mat4 view;
-    float yaw;
-    float pitch;
     vec3 positions;
     vec3 up;
     vec3 right;
     vec3 forward;
+    vec3 direction;
+    float yaw;
+    float pitch;
 } camera_t;
 
+void update_camera_direction(camera_t* camera);
 void set_up_projection(camera_t* camera, int width, int height);
 void camera_init(camera_t* camera, float yaw, float pitch, int width, int height);
 void update_view_matrix(camera_t* camera);

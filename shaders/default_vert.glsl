@@ -1,8 +1,8 @@
 #version 460 core
 
 layout (location = 0) in vec3 aPos;
-layout (location = 1) in float aVoxelId;
-layout (location = 2) in float aFaceId;
+//layout (location = 1) in float aVoxelId;
+//layout (location = 2) in float aFaceId;
 
 uniform mat4 uProjection;
 uniform mat4 uView;
@@ -16,7 +16,7 @@ vec3 hash_color(float p) {
 }
 
 void main() {
-    voxel_color = hash_color(aVoxelId);
+    voxel_color = hash_color(aPos.x + aPos.y + aPos.z);
     mat4 model = mat4(1.0); // Identity matrix (no transformations applied)
     gl_Position = uProjection * uView * model * vec4(aPos.xyz, 1.0);
 }

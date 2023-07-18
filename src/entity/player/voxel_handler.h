@@ -11,7 +11,8 @@
 #include "../../renderer/chunk.h"
 
 #define MAX_RAY_DIST 6
+#define STEP_SIZE_RAY_CAST 0.2f
 
-void ray_cast(camera_t camera, chunk_t* chunk, double mouse_x, double mouse_y, int screen_width, int screen_height);
+void ray_cast(camera_t camera, chunk_t* chunk);
 
 #endif //MINI_CRAFT_VOXEL_HANDLER_H

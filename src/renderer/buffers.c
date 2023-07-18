@@ -16,7 +16,7 @@ void bind_vao(GLuint vao) {
 
 void add_attribute(int layout, int size, int offset) {
     // add vertex attrib pointers (va)
-    size_t vertex_size_int_bytes = VERTEX_SIZE * sizeof(float);
+    size_t vertex_size_int_bytes = VERTEX_SIZE_VALUES * sizeof(float);
 
     glEnableVertexAttribArray(layout);
     glVertexAttribPointer(layout, size, GL_FLOAT, GL_FALSE, vertex_size_int_bytes, (const void*)(sizeof(float) * offset));
@@ -53,7 +53,7 @@ void create_buffers(const GLfloat *vertices, const GLuint *indices, buffers_t *b
 
     create_vbo(&buffer->vbo);
     bind_vbo(buffer->vbo);
-    send_data_vbo(vertices, sizeof(float) * VERTEX_SIZE * 4 * CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 4);
+    send_data_vbo(vertices, sizeof(float) * VERTEX_SIZE_VALUES * 4 * CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * 4);
 
     create_ebo(&buffer->ebo);
     bind_ebo(buffer->ebo);

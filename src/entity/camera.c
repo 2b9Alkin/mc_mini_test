@@ -5,6 +5,17 @@
 #include <memory.h>
 #include "camera.h"
 
+void update_camera_direction(camera_t* camera) {
+    // Calculate the direction vector components based on yaw and pitch.
+    float cos_pitch = cos(camera->pitch);
+    camera->direction[0] = cos(camera->yaw) * cos_pitch;
+    camera->direction[1] = sin(camera->pitch);
+    camera->direction[2] = sin(camera->yaw) * cos_pitch;
+
+    // Normalize the direction vector to make it a unit vector.
+    glm_normalize(camera->direction);
+}
+
 void set_up_projection(camera_t* camera, int width, int height) {
     float aspect_ratio = (float) (width / height) ; // Adjust this based on your screen size
 

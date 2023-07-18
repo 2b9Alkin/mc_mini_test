@@ -30,6 +30,8 @@ include_directories(glew/include)
 include_directories(glad/include)
 include_directories(glfw/include)
 
+target_link_libraries(mini_craft PRIVATE m)
+
 # Link GLFW and fast_obj libraries
 target_link_libraries(mini_craft PRIVATE glfw)
 
