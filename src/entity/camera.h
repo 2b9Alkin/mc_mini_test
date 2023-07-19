@@ -5,24 +5,26 @@
 #ifndef KOPE24_CAMERA_H
 #define KOPE24_CAMERA_H
 
-#include "cglm/cglm/include/cglm/cglm.h"
+#define RAYMATH_STATIC_INLINE
+#include "raymath/raymath.h"
+
 #include "../renderer/shader.h"
 
 #define FOV 70.0f
 #define NEAR 0.1f
 #define FAR 4096.0f
-#define PITCH_MAX glm_rad(89)
+#define PITCH_MAX (89 * DEG2RAD)
 #define MOUSE_SENSITIVITY 0.0185f
 
 typedef struct {
-    mat4 projection;
-    mat4 rotation;
-    mat4 view;
-    vec3 positions;
-    vec3 up;
-    vec3 right;
-    vec3 forward;
-    vec3 direction;
+    Matrix projection;
+    Matrix rotation;
+    Matrix view;
+    Vector3 position;
+    Vector3 up;
+    Vector3 right;
+    Vector3 forward;
+    Vector3 direction;
     float yaw;
     float pitch;
 } camera_t;

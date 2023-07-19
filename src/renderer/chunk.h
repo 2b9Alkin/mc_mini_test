@@ -54,5 +54,6 @@ typedef struct {
 void chunk_init(chunk_t* chunk);
 void chunk_rebuild(chunk_t *chunk, int x, int y, int z);
 void chunk_render(chunk_t chunk);
+void chunk_break_block(chunk_t *chunk, int x, int y, int z);
 
 #endif //MINI_CRAFT_CHUNK_H

@@ -6,13 +6,12 @@
 #define MINI_CRAFT_VOXEL_HANDLER_H
 
 #include "../camera.h"
-#include "../../../include/cglm/cglm/include/cglm/cglm.h"
 #include "../../../glfw/include/glfw3.h"
 #include "../../renderer/chunk.h"
 
 #define MAX_RAY_DIST 1
 #define STEP_SIZE_RAY_CAST 0.15f
 
-void ray_cast(camera_t camera, chunk_t* chunk);
+Vector3Int ray_cast(camera_t camera, chunk_t* chunk);
 
 #endif //MINI_CRAFT_VOXEL_HANDLER_H

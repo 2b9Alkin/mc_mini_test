@@ -171,7 +171,13 @@ void chunk_rebuild(chunk_t *chunk, int x, int y, int z) {
 
     bind_ebo(chunk->mesh.buffers.ebo);
     send_data_ebo(chunk->mesh.indices, sizeof(GLuint) * 6 * 6 * chunk->mesh.current_index);
-    
+
     free(vertices);
     free(indices);
+}
+
+void chunk_break_block(chunk_t* chunk, int x, int y, int z) {
+	// Break the block at the current position.
+	chunk->map_data[x][y][z] = EMPTY_BLOCK;
+	chunk_rebuild(chunk, x, y, z);
 }

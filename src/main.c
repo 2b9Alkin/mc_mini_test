@@ -58,24 +58,22 @@ int main() {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);
 
-    glfwSetWindowPos(window, 0, 0);
-
     // DEBUG (TEST):
     chunk_init(&test_chunk1);
 
     // player config
     player_t* player = malloc(sizeof(player_t));
     player->camera = malloc(sizeof(camera_t));
-    player->camera->positions[0] = 0;
+    player->camera->position.x = 0;
 //    player->camera->positions[1] = CHUNK_SIZE * BLOCK_SIZE + BLOCK_SIZE;
-    player->camera->positions[1] = 0;
-    player->camera->positions[2] = 0;
+    player->camera->position.y = 0;
+    player->camera->position.z = 0;
     player->player_speed = 1.916f;
     camera_init(player->camera, 0, 1.5f, WINDOW_WIDTH, WINDOW_HEIGHT);
     set_up_projection(player->camera, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // uploads the projection to the shader
-    glUniformMatrix4fv(glGetUniformLocation(test_chunk1.mesh.shader.program_id, "uProjection"), 1, GL_FALSE,(const GLfloat*) player->camera->projection);
+    glUniformMatrix4fv(glGetUniformLocation(test_chunk1.mesh.shader.program_id, "uProjection"), 1, GL_FALSE,(const GLfloat*) &player->camera->projection);
 
     // runs the game loop
     //  timer variables
@@ -99,10 +97,10 @@ int main() {
 
             update_camera_direction(player->camera);
             if (glfwGetMouseButton(window, 0) == GLFW_PRESS) {
-                double mx, my;
-                glfwGetCursorPos(window, &mx, &my);
-
-                ray_cast(*player->camera, &test_chunk1);
+				Vector3Int pos = ray_cast(*player->camera, &test_chunk1);
+				if (Vector3IntEquals(pos, Vector3IntZero())) {
+					chunk_break_block(&test_chunk1, pos.x, pos.y, pos.z);
+				}
             }
 
             // update player
@@ -110,7 +108,7 @@ int main() {
             mouse_control(player->camera, window);
             update_view_matrix(player->camera);
             update_vectors(player->camera);
-            glUniformMatrix4fv(glGetUniformLocation(test_chunk1.mesh.shader.program_id, "uView"), 1, GL_FALSE,(const GLfloat*) player->camera->view);
+            glUniformMatrix4fv(glGetUniformLocation(test_chunk1.mesh.shader.program_id, "uView"), 1, GL_FALSE,(const GLfloat*) &player->camera->view);
 
             screen_render(window);
             // exit
@@ -127,7 +125,7 @@ int main() {
         // print the fps every second
 #if DEBUG
         if (timer >= 1000000000ULL) {
-            printf("FPS: %i\n", draw_count);
+//            printf("FPS: %i\n", draw_count);
             draw_count = 0;
             timer = 0;
         }
