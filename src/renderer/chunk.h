@@ -8,27 +8,35 @@
 #include "shader.h"
 #include "buffers.h"
 
-#define CHUNK_SIZE 3
+#define CHUNK_SIZE 12
 #define BLOCK_SIZE 32
 #define CHUNK_AREA CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE
 #define FACE_SIZE_VALUES VERTEX_SIZE_VALUES * 4
 #define BLOCK_SIZE_VALUES FACE_SIZE_VALUES * 6
+
+// FACES
+#define RIGHT_FACE_VERTICES(x, y, z) x * BLOCK_SIZE,         (y + 1) * BLOCK_SIZE,       z * BLOCK_SIZE, \
+                                     (x + 1) * BLOCK_SIZE,   (y + 1) * BLOCK_SIZE,       z * BLOCK_SIZE, \
+                                     (x + 1) * BLOCK_SIZE,   (y + 1) * BLOCK_SIZE,       (z + 1) * BLOCK_SIZE, \
+                                     x * BLOCK_SIZE,         (y + 1) * BLOCK_SIZE,       (z + 1) * BLOCK_SIZE,
+#define LEFT_FACE_VERTICES(x, y, z) x * BLOCK_SIZE,         (y + 0) * BLOCK_SIZE,       z * BLOCK_SIZE, \
+                                    (x + 1) * BLOCK_SIZE,   (y + 0) * BLOCK_SIZE,       z * BLOCK_SIZE, \
+                                    (x + 1) * BLOCK_SIZE,   (y + 0) * BLOCK_SIZE,       (z + 1) * BLOCK_SIZE, \
+                                    x * BLOCK_SIZE,         (y + 0) * BLOCK_SIZE,       (z + 1) * BLOCK_SIZE,
+
+#define TOP_FACE_VERTICES
+#define BOTTOM_FACE_VERTICES
+#define FRONT_FACE_VERTICES
+#define BACK_FACE_VERTICES
+
+#define INDICES_IN(index) 0 + index, 1 + index, 2 + index, \
+                          0 + index, 2 + index, 3 + index
 
 enum tiles {
     EMPTY_BLOCK = 0,
     GRASS_BLOCK = 1,
     STONE_BLOCK = 2
 };
-
-enum faces {
-    LEFT_FACE=0,
-    RIGHT_FACE=1,
-    FRONT_FACE=0,
-    BACK_FACE=1,
-    TOP_FACE=0,
-    BOTTOM_FACE=1
-};
-
 
 typedef struct {
     shader_t shader;

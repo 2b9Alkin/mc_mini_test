@@ -49,7 +49,7 @@ int main() {
         return -1;
     }
     // window config
-    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Mini Craft", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Vulkan Krope", NULL, NULL);
 
     // create context
     glfwMakeContextCurrent(window);
@@ -66,6 +66,9 @@ int main() {
     // player config
     player_t* player = malloc(sizeof(player_t));
     player->camera = malloc(sizeof(camera_t));
+    player->camera->positions[0] = 0;
+    player->camera->positions[1] = CHUNK_SIZE * BLOCK_SIZE + BLOCK_SIZE;
+    player->camera->positions[2] = 0;
     player->player_speed = 1.916f;
     camera_init(player->camera, 0, 1.5f, WINDOW_WIDTH, WINDOW_HEIGHT);
     set_up_projection(player->camera, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -99,29 +102,6 @@ int main() {
                 glfwGetCursorPos(window, &mx, &my);
 
                 ray_cast(*player->camera, &test_chunk1);
-//                ray_cast(*player->camera, &test_chunk1, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-//                test_chunk1.map_data[0][0][3] = EMPTY_BLOCK;
-//                chunk_rebuild(&test_chunk1, 0, 0, 3);
-//                if (xyz[0] < 0) {
-//                    xyz[0] = 0;
-//                } else if (xyz[0] >= CHUNK_SIZE) {
-//                    xyz[0] = CHUNK_SIZE - 1;
-//                }
-//
-//                if (xyz[1] < 0) {
-//                    xyz[1] = 0;
-//                } else if (xyz[1] >= CHUNK_SIZE) {
-//                    xyz[1] = CHUNK_SIZE - 1;
-//                }
-//
-//                if (xyz[2] < 0) {
-//                    xyz[2] = 0;
-//                } else if (xyz[2] >= CHUNK_SIZE) {
-//                    xyz[2] = CHUNK_SIZE - 1;
-//                }
-//
-//                test_chunk1.map_data[xyz[0]][xyz[1]][xyz[2]] = EMPTY_BLOCK;
             }
 
             // update player
@@ -144,11 +124,13 @@ int main() {
         }
 
         // print the fps every second
+#if DEBUG
         if (timer >= 1000000000ULL) {
             printf("FPS: %i\n", draw_count);
             draw_count = 0;
             timer = 0;
         }
+#endif //DEBUG
     }
 
     return 0;

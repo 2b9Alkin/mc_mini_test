@@ -10,8 +10,8 @@
 #include "../../../glfw/include/glfw3.h"
 #include "../../renderer/chunk.h"
 
-#define MAX_RAY_DIST 6
-#define STEP_SIZE_RAY_CAST 0.2f
+#define MAX_RAY_DIST 1
+#define STEP_SIZE_RAY_CAST 0.35f
 
 void ray_cast(camera_t camera, chunk_t* chunk);
 
