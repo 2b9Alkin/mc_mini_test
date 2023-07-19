@@ -17,7 +17,7 @@ void update_camera_direction(camera_t* camera) {
 }
 
 void set_up_projection(camera_t* camera, int width, int height) {
-    float aspect_ratio = (float) (width / height) ; // Adjust this based on your screen size
+    float aspect_ratio = (float) ((width) / height) ; // Adjust this based on your screen size
 
     glm_perspective(glm_rad(FOV), aspect_ratio, NEAR, FAR, camera->projection);
 }

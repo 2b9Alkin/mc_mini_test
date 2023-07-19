@@ -134,34 +134,35 @@ void chunk_rebuild(chunk_t *chunk, int x, int y, int z) {
     int current_index = 0;
 
     int area = CHUNK_SIZE * CHUNK_SIZE;
-    int index = z + CHUNK_SIZE * y + area * x;
+    int index = x + CHUNK_SIZE * y + area * z;
 
+    if (chunk->map_data[x][y + 1][z] != STONE_BLOCK) {
+        GLfloat temp_vertices[FACE_SIZE_VALUES] = {
+                RIGHT_FACE_VERTICES(x, y, z)
+        };
 
-    GLfloat temp_vertices[FACE_SIZE_VALUES] = {
-        RIGHT_FACE_VERTICES(x, y, z)
-    };
+        GLuint temp_indices[6] = {
+                INDICES_IN((current_index * 6) + (index * 6 * 6))
+        };
 
-    GLuint temp_indices[6] = {
-        INDICES_IN((current_index * 6) + (index * 6 * 6))
-    };
+        for (int i = 0; i < 6; i++) {
+            indices[i] = temp_indices[i];
+        }
 
-    for (int i = 0; i < 6; i++) {
-        indices[i] = temp_indices[i];
+        for (int v = 0; v < FACE_SIZE_VALUES; v++) {
+            vertices[v] = temp_vertices[v];
+        }
+
+        current_index++;
     }
-
-    for (int v = 0; v < FACE_SIZE_VALUES; v++) {
-        vertices[v] = temp_vertices[v];
-    }
-
-    current_index++;
 
     for (int v = 0; v < BLOCK_SIZE_VALUES; v++) {
         chunk->mesh.vertices[(index * BLOCK_SIZE_VALUES) + v] = vertices[v];
     }
 
-    printf("%d, %d, %d, %d\n", x, y, z, index);
+//    printf("%d, %d, %d, %d\n", x, y, z, index);
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6 * 6; i++) {
         chunk->mesh.indices[(index * 6 * 6) + i] = indices[i];
     }
 

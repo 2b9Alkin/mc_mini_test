@@ -67,7 +67,8 @@ int main() {
     player_t* player = malloc(sizeof(player_t));
     player->camera = malloc(sizeof(camera_t));
     player->camera->positions[0] = 0;
-    player->camera->positions[1] = CHUNK_SIZE * BLOCK_SIZE + BLOCK_SIZE;
+//    player->camera->positions[1] = CHUNK_SIZE * BLOCK_SIZE + BLOCK_SIZE;
+    player->camera->positions[1] = 0;
     player->camera->positions[2] = 0;
     player->player_speed = 1.916f;
     camera_init(player->camera, 0, 1.5f, WINDOW_WIDTH, WINDOW_HEIGHT);

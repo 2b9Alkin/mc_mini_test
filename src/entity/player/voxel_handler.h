@@ -11,7 +11,7 @@
 #include "../../renderer/chunk.h"
 
 #define MAX_RAY_DIST 1
-#define STEP_SIZE_RAY_CAST 0.35f
+#define STEP_SIZE_RAY_CAST 0.15f
 
 void ray_cast(camera_t camera, chunk_t* chunk);
 
