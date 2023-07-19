@@ -2,6 +2,7 @@
 // Created by cprkan on 7/16/23.
 //
 
+#include <stdbool.h>
 #include "player.h"
 
 static bool mouse_moved = false;
@@ -58,5 +59,4 @@ void keyboard_control(player_t* player, double delta_time, GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
         move_down(player->camera, velocity);
     }
-
 }

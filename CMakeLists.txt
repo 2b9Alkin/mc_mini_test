@@ -9,6 +9,7 @@ file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.c" "src/*.h")
 add_executable(mini_craft ${SOURCES} include/stbi/include/stbi.h include/stbi/src/stbi.c)
 
 # Find OpenGL package
+set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)
 
 # Find GLEW library
